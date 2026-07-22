@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% block title %}Home · Resume Analyzer{% endblock %}
+
+{% block content %}
+<style>
+    .hero {
+        text-align: center;
+        padding: 3rem 1rem;
+        background: rgba(255,255,255,0.7);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-radius: 60px;
+        box-shadow: 0 30px 50px -25px rgba(0,45,80,0.3);
+        border: 1px solid rgba(255,255,255,0.7);
+        max-width: 800px;
+        margin: 2rem auto;
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #123b57, #1d628b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+        color: #2c577b;
+        margin-bottom: 2.5rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        text-decoration: none;
+        font-weight: 600;
+        padding: 1rem 2.5rem;
+        border-radius: 60px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: 0.2s;
+        font-size: 1.1rem;
+        border: 1px solid transparent;
+    }
+
+    .btn-primary {
+        background: #0b334f;
+        color: white;
+        box-shadow: 0 10px 20px -5px #0b334f80;
+        border: 1px solid #22638b;
+    }
+
+    .btn-primary:hover {
+        background: #1a4f74;
+        transform: translateY(-4px);
+        box-shadow: 0 18px 30px -5px #0b334f;
+    }
+
+    .btn-secondary {
+        background: white;
+        color: #1d4e72;
+        border: 1px solid #b8d5ed;
+    }
+
+    .btn-secondary:hover {
+        background: #e7f2fc;
+        transform: translateY(-4px);
+        border-color: #7ba9cc;
+        box-shadow: 0 12px 24px rgba(0,60,100,0.15);
+    }
+
+    .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin: 4rem 0;
+    }
+
+    .feature-card {
+        background: rgba(255,255,255,0.7);
+        backdrop-filter: blur(4px);
+        border-radius: 40px;
+        padding: 2rem 1.5rem;
+        text-align: center;
+        border: 1px solid rgba(255,255,255,0.7);
+        box-shadow: 0 15px 30px -12px rgba(0,45,70,0.2);
+    }
+
+    .feature-card i {
+        font-size: 2.5rem;
+        color: #1d6b9b;
+        margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+        font-size: 1.4rem;
+        font-weight: 650;
+        color: #0e334d;
+        margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+        color: #3d617e;
+        font-size: 0.95rem;
+    }
+
+    hr {
+        border: none;
+        height: 2px;
+        background: linear-gradient(to right, transparent, #c0d8ec, transparent);
+        margin: 2rem 0;
+    }
+</style>
+
+<div class="hero">
+    <h1>
+        <i class="fas fa-file-alt" style="color:#1d6b9b;"></i> 
+        Welcome to Resume Analyzer
+    </h1>
+    <p>Analyze your resume using AI. Get instant feedback on strengths, gaps, and match scores for any job description.</p>
+    <div class="cta-buttons">
+        <a href="/login" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a href="/signup" class="btn btn-secondary"><i class="fas fa-user-plus"></i> Sign Up</a>
+    </div>
+</div>
+
+<hr>
+
+<div class="features">
+    <div class="feature-card">
+        <i class="fas fa-robot"></i>
+        <h3>AI‑Powered Analysis</h3>
+        <p>Our advanced models scan resumes and compare them to job requirements in seconds.</p>
+    </div>
+    <div class="feature-card">
+        <i class="fas fa-chart-line"></i>
+        <h3>Match Scores</h3>
+        <p>See a clear percentage match and detailed breakdown of core vs. secondary skills.</p>
+    </div>
+    <div class="feature-card">
+        <i class="fas fa-file-pdf"></i>
+        <h3>Resume Summaries</h3>
+        <p>Get a concise professional summary, key strengths, and identified gaps.</p>
+    </div>
+</div>
+{% endblock %}

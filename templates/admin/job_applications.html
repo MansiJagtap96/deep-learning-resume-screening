@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applications for {{ job.title }} · AI Sorter</title>
+    <!-- Font Awesome for icons (AI agent, etc.) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Font for clean typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(145deg, #f6f9fc 0%, #edf2f9 100%);
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            color: #1e293b;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* header + back link */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .page-header h2 {
+            font-weight: 600;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #0f2b4b, #1e4b6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .back-dashboard {
+            background: white;
+            padding: 0.6rem 1.4rem;
+            border-radius: 40px;
+            font-weight: 500;
+            text-decoration: none;
+            color: #1e4b6e;
+            box-shadow: 0 4px 10px rgba(0, 30, 50, 0.1);
+            transition: all 0.2s;
+            border: 1px solid rgba(255,255,255,0.5);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-dashboard i {
+            font-size: 0.9rem;
+        }
+
+        .back-dashboard:hover {
+            background: #f0f7ff;
+            box-shadow: 0 8px 20px rgba(0,60,100,0.15);
+            transform: translateY(-2px);
+        }
+
+        /* filter card */
+        .filter-card {
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.6);
+            border-radius: 32px;
+            padding: 1.8rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 40px -12px rgba(0,40,70,0.25);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1.8rem;
+        }
+
+        .filter-form {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem;
+            flex: 2 1 300px;
+        }
+
+        .filter-form label {
+            font-weight: 600;
+            color: #0b3550;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+        }
+
+        .filter-input-group {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 60px;
+            box-shadow: 0 4px 12px rgba(0,20,40,0.08);
+            padding: 0.3rem 0.3rem 0.3rem 1.5rem;
+            border: 1px solid #e2edf5;
+            transition: 0.2s;
+        }
+        .filter-input-group:focus-within {
+            box-shadow: 0 8px 20px rgba(0,120,200,0.15);
+            border-color: #9ac7e0;
+        }
+
+        .filter-input-group input {
+            border: none;
+            padding: 0.8rem 0;
+            font-size: 1rem;
+            width: 100px;
+            outline: none;
+            font-weight: 500;
+            background: transparent;
+        }
+
+        .filter-input-group button {
+            background: #0d2f4a;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.7rem 1.8rem;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.15s;
+            border: 1px solid #26648b;
+            letter-spacing: 0.3px;
+        }
+
+        .filter-input-group button i {
+            font-size: 1rem;
+        }
+
+        .filter-input-group button:hover {
+            background: #1a4a6e;
+            transform: scale(1.02);
+        }
+
+        .see-all-btn {
+            background: white;
+            border: 1px solid #cbdde9;
+            color: #1b4c6e;
+            padding: 0.7rem 1.8rem;
+            border-radius: 40px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .see-all-btn i {
+            font-size: 0.9rem;
+        }
+
+        .see-all-btn:hover {
+            background: #e3f0fa;
+            border-color: #90b8cf;
+        }
+
+        /* detailed analysis button */
+        .analysis-wrapper {
+            margin-bottom: 2.5rem;
+        }
+
+        .btn-analysis {
+            background: linear-gradient(115deg, #0e3d5e, #196189);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 10px 20px -5px #0e3d5e80;
+            transition: 0.2s;
+            border: 1px solid rgba(255,255,255,0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-analysis i {
+            font-size: 1.4rem;
+        }
+
+        .btn-analysis:hover:not(:disabled) {
+            background: linear-gradient(115deg, #124f77, #1f74a3);
+            transform: translateY(-3px);
+            box-shadow: 0 18px 30px -5px #104367b0;
+        }
+
+        .btn-analysis:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #7f9bb0;
+            box-shadow: none;
+        }
+
+        /* application cards grid */
+        .cards-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .app-card {
+            background: white;
+            border-radius: 30px;
+            padding: 1.8rem 2rem;
+            border: 1px solid rgba(157, 197, 227, 0.3);
+            box-shadow: 0 15px 30px -15px rgba(19, 62, 102, 0.2);
+            transition: all 0.25s;
+            position: relative;
+            backdrop-filter: blur(2px);
+        }
+
+        .app-card:hover {
+            box-shadow: 0 25px 40px -18px #0d314b;
+            transform: translateY(-4px);
+            border-color: #9ac0d9;
+        }
+
+        .rank-badge {
+            display: inline-block;
+            background: #0a2a41;
+            color: white;
+            border-radius: 100px;
+            padding: 0.25rem 1rem 0.25rem 1.2rem;
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 0.4px;
+            margin-bottom: 1rem;
+            border: 1px solid #427da0;
+            box-shadow: 0 2px 8px black(0,0,0,0.1);
+        }
+
+        .match-percent {
+            background: #e0effb;
+            border-radius: 60px;
+            padding: 0.3rem 1.2rem;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #08537a;
+            display: inline-block;
+            margin-left: 0.8rem;
+            border: 1px solid #b7d6ed;
+        }
+
+        .applicant-name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #0b314a;
+            margin-bottom: 0.5rem;
+        }
+
+        .applicant-email {
+            color: #416e8c;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 1.2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: #eef6fd;
+            color: #24678b;
+            border: 1px solid #bdd8ec;
+            margin: 0.5rem 0 1rem 0;
+        }
+
+        .status-badge.pending {
+            background: #fff9e0;
+            color: #9b7400;
+            border-color: #f5d98f;
+        }
+
+        .action-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            align-items: center;
+            margin-top: 1.5rem;
+            border-top: 2px dashed #c7ddec;
+            padding-top: 1.5rem;
+        }
+
+        .action-link {
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.6rem 1.4rem;
+            border-radius: 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            transition: 0.15s;
+            border: 1px solid transparent;
+        }
+
+        .download-link {
+            background: #ebf3fa;
+            color: #1d5b87;
+            border-color: #b8d2e9;
+        }
+        .download-link:hover {
+            background: #d5e6f7;
+        }
+
+        .accept-link {
+            background: #e1f7e9;
+            color: #1d7845;
+            border-color: #a0dbb4;
+        }
+        .accept-link:hover {
+            background: #c9f0d8;
+        }
+
+        .reject-link {
+            background: #feeaea;
+            color: #b13e3e;
+            border-color: #fbbaba;
+        }
+        .reject-link:hover {
+            background: #fcd9d9;
+        }
+
+        .summarize-link {
+            background: #ede2fc;
+            color: #694b9d;
+            border-color: #cfbaf5;
+        }
+        .summarize-link:hover {
+            background: #e0d0fc;
+        }
+
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, #c1ddec, transparent);
+            margin: 2rem 0;
+        }
+
+        /* empty state */
+        .empty-state {
+            background: rgba(255,255,255,0.7);
+            border-radius: 60px;
+            padding: 3rem;
+            text-align: center;
+            color: #3c627e;
+            font-weight: 500;
+            border: 2px dashed #9ebfd5;
+            font-size: 1.2rem;
+        }
+
+        /* ========== LOADING OVERLAY (AI AGENT SORTER) ========== */
+        #loadingOverlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 20, 35, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+        }
+
+        .ai-agent-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 60px;
+            padding: 2.8rem 3.5rem;
+            text-align: center;
+            box-shadow: 0 50px 70px -20px black;
+            border: 2px solid rgba(255,255,255,0.6);
+            max-width: 600px;
+            width: 90%;
+            animation: gentle-pulse 2s infinite ease-in-out;
+        }
+
+        .ai-icon {
+            font-size: 5.5rem;
+            color: #15507b;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 8px 12px #0a3350);
+            animation: spin-slow 3s infinite linear;
+        }
+
+        .ai-agent-card h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(130deg, #103f60, #1d6a9b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .ai-agent-card p {
+            color: #1c3d58;
+            font-weight: 500;
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        /* shuffling resumes animation (3 cards bob up and down) */
+        .shuffle-resumes {
+            display: flex;
+            justify-content: center;
+            gap: 1.8rem;
+            margin-top: 2rem;
+            perspective: 400px;
+        }
+
+        .shuffle-card {
+            background: white;
+            width: 90px;
+            height: 110px;
+            border-radius: 24px;
+            box-shadow: 0 20px 30px -8px #0b2233;
+            border: 2px solid #c4dff5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 2rem;
+            color: #1d5e90;
+            animation: shuffle-bounce 1.2s infinite alternate ease-in-out;
+            transform-origin: center bottom;
+            background: linear-gradient(145deg, #f1f9ff, #d6e9f8);
+        }
+
+        .shuffle-card i {
+            font-size: 2.2rem;
+            color: #296e9e;
+        }
+
+        .shuffle-card span {
+            font-size: 0.7rem;
+            font-weight: 700;
+            background: #114062;
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 60px;
+        }
+
+        .shuffle-card:nth-child(2) {
+            animation-delay: 0.2s;
+            background: linear-gradient(145deg, #fff7e6, #ffeecb);
+        }
+        .shuffle-card:nth-child(3) {
+            animation-delay: 0.4s;
+            background: linear-gradient(145deg, #e5f3e5, #cbe8cb);
+        }
+
+        @keyframes shuffle-bounce {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-28px) rotate(1.5deg); }
+        }
+
+        @keyframes gentle-pulse {
+            0% { box-shadow: 0 30px 50px -20px #040c1a; }
+            50% { box-shadow: 0 40px 70px -18px #091e30; }
+            100% { box-shadow: 0 30px 50px -20px #040c1a; }
+        }
+
+        @keyframes spin-slow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ========== HEADER ========== -->
+        <div class="page-header">
+            <h2><i class="fas fa-briefcase" style="margin-right: 10px; color:#195d89;"></i>Applications for {{ job.title }}</h2>
+            <a href="{{ url_for('admin.dashboard') }}" class="back-dashboard"><i class="fas fa-arrow-left"></i> Dashboard</a>
+        </div>
+
+        <!-- ========== FILTER CARD ========== -->
+        <div class="filter-card">
+            <form method="POST" class="filter-form" id="filterForm">
+                <label for="topNInput"><i class="fas fa-robot" style="margin-right: 6px; color:#1d5d88;"></i>Top candidates:</label>
+                <div class="filter-input-group">
+                    <input type="number" name="top_n" id="topNInput" min="1" placeholder="e.g. 5" required>
+                    <button type="submit"><i class="fas fa-filter"></i> Filter</button>
+                </div>
+                {% if ranked_results %}
+                    <a href="{{ url_for('admin.see_all_applications', job_id=job.id) }}" class="see-all-btn"><i class="fas fa-users"></i> See All</a>
+                {% endif %}
+            </form>
+        </div>
+
+        <!-- ========== DETAILED ANALYSIS BUTTON ========== -->
+        <div class="analysis-wrapper">
+            {% if ranked_results %}
+                <a href="{{ url_for('admin.detailed_analysis', job_id=job.id) }}">
+                    <button class="btn-analysis"><i class="fas fa-microchip"></i> Detailed AI Analysis</button>
+                </a>
+            {% else %}
+                <button class="btn-analysis" disabled><i class="fas fa-lock"></i> Detailed AI Analysis (Filter first)</button>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <!-- ========== APPLICATIONS SECTION ========== -->
+        <!-- determine display list -->
+        {% if ranked_results %}
+            {% set display_list = ranked_results %}
+        {% else %}
+            {% set display_list = applications %}
+        {% endif %}
+
+        {% if display_list %}
+            <div class="cards-grid">
+                {% for item in display_list %}
+                    {% if ranked_results %}
+                        {% set app = item["application"] %}
+                        {% set match_percent = item["match_percent"] %}
+                    {% else %}
+                        {% set app = item %}
+                    {% endif %}
+
+                    <div class="app-card">
+                        {% if ranked_results %}
+                            <div class="rank-badge">
+                                Rank #{{ loop.index }} <span class="match-percent"><i class="fas fa-chart-line"></i> {{ match_percent }}% match</span>
+                            </div>
+                        {% endif %}
+
+                          <div class="applicant-name">{{ app.masked_name }}</div>
+                          <div class="applicant-email">
+                              <i class="fas fa-envelope"></i> {{ app.masked_email }}
+                          </div>
+
+                        <div class="status-badge {% if app.status == 'Pending' %}pending{% endif %}">
+                            <i class="fas fa-circle" style="font-size: 0.5rem; margin-right: 6px;"></i> {{ app.status }}
+                        </div>
+
+                        <div class="action-links">
+                            <a href="/{{ app.resume }}" download class="action-link download-link"><i class="fas fa-download"></i> Resume</a>
+
+                            {% if app.status == "Pending" %}
+                                <a href="{{ url_for('admin.accept_application', app_id=app.id) }}" class="action-link accept-link"><i class="fas fa-check-circle"></i> Accept</a>
+                                <a href="{{ url_for('admin.reject_application', app_id=app.id) }}" class="action-link reject-link"><i class="fas fa-times-circle"></i> Reject</a>
+                            {% else %}
+                                <a href="{{ url_for('admin.accept_application', app_id=app.id) }}" class="action-link accept-link"><i class="fas fa-paper-plane"></i> Accept Again</a>
+                            {% endif %}
+
+                            <a href="{{ url_for('admin.resume_summary', app_id=app.id) }}" class="action-link summarize-link"><i class="fas fa-file-alt"></i> Summarize</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-folder-open" style="font-size: 3rem; opacity: 0.5; margin-bottom: 1rem; display: block;"></i>
+                No students applied yet.
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- ========== AI SORTER LOADING OVERLAY ========== -->
+    <div id="loadingOverlay">
+        <div class="ai-agent-card">
+            <div class="ai-icon">
+                <i class="fas fa-robot"></i>
+            </div>
+            <h3 id="overlayHeading">AI agent is sorting</h3>
+            <p id="overlayMessage">your agent is sorting best resumes</p>
+            <!-- shuffling resume cards animation -->
+            <div class="shuffle-resumes">
+                <div class="shuffle-card"><i class="fas fa-file-pdf"></i><span>resume 1</span></div>
+                <div class="shuffle-card"><i class="fas fa-file-word"></i><span>resume 2</span></div>
+                <div class="shuffle-card"><i class="fas fa-file-alt"></i><span>resume 3</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript to trigger overlay on filter form submit -->
+    <script>
+        (function() {
+            const filterForm = document.getElementById('filterForm');
+            const overlay = document.getElementById('loadingOverlay');
+            const heading = document.getElementById('overlayHeading');
+            const message = document.getElementById('overlayMessage');
+
+            // Function to show overlay with custom text
+            function showOverlay(customHeading, customMessage) {
+                if (heading && message) {
+                    heading.textContent = customHeading;
+                    message.textContent = customMessage;
+                }
+                overlay.style.display = 'flex';
+            }
+
+            // Filter form submit
+            if (filterForm && overlay) {
+                filterForm.addEventListener('submit', function(e) {
+                    showOverlay('AI agent is sorting', 'your agent is sorting best resumes');
+                    // form will submit normally, overlay stays until next page loads
+                });
+            }
+
+            // Attach click handlers to all "Summarize" links
+            const summarizeLinks = document.querySelectorAll('a.summarize-link'); // using the class we gave to the summarize button
+            summarizeLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Change overlay text for summarization
+                    showOverlay('AI agent is preparing summary', 'your agent is analyzing the resume...');
+                    // allow the link to navigate
+                });
+            });
+        })();
+    </script>
+
+    <!-- ensure overlay is hidden if user navigates back (but that's fine) -->
+</body>
+</html>

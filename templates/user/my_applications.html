@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}My Applications{% endblock %}
+
+{% block content %}
+<h2>My Applied Jobs</h2>
+
+{% for app in applications %}
+    <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+        <h3>{{ app.job.title }}</h3>
+        <p><strong>Status:</strong> {{ app.status }}</p>
+        <p><strong>Applied On:</strong> {{ app.created_at }}</p>
+    </div>
+{% else %}
+    <p>No applications yet.</p>
+{% endfor %}
+
+<a href="{{ url_for('user.dashboard') }}">Back</a>
+{% endblock %}

@@ -1,0 +1,18 @@
+5.0.0
+5.2.3
+
+print(transformers.__version__)
+print(sentence_transformers.__version__)
+
+
+AIzaSyAIHNT9Vybjv5vycics60hovlfrEIbLaSw
+
+from google import genai
+
+# The client gets the API key from the environment variable `GEMINI_API_KEY`.
+client = genai.Client()
+
+response = client.models.generate_content(
+    model="gemini-3-flash-preview", contents="Explain how AI works in a few words"
+)
+print(response.text)

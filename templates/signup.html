@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% block title %}Signup{% endblock %}
+
+{% block content %}
+<!-- Include Font Awesome and Google Fonts (if not already in base.html) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(145deg, #f0f7fd 0%, #e3eef9 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+    }
+
+    .auth-card {
+        background: rgba(255,255,255,0.85);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 40px;
+        padding: 2.8rem 2.5rem;
+        box-shadow: 0 30px 50px -25px rgba(0,45,80,0.4);
+        border: 1px solid rgba(255,255,255,0.7);
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .auth-card h2 {
+        font-size: 2.2rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #123b57, #1d628b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .auth-form {
+        margin-top: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+        text-align: left;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: 600;
+        color: #0d3552;
+        margin-bottom: 0.3rem;
+        font-size: 0.9rem;
+    }
+
+    .input-icon {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .input-icon i {
+        position: absolute;
+        left: 16px;
+        color: #6d9ec0;
+        font-size: 1.1rem;
+    }
+
+    .input-icon input {
+        width: 100%;
+        padding: 1rem 1rem 1rem 3rem;
+        font-size: 1rem;
+        font-family: 'Inter', sans-serif;
+        border: 2px solid #d0e2f2;
+        border-radius: 60px;
+        background: white;
+        transition: all 0.2s;
+        outline: none;
+        color: #1d3e5a;
+    }
+
+    .input-icon input:focus {
+        border-color: #79b0d5;
+        box-shadow: 0 0 0 4px rgba(31, 122, 180, 0.15);
+    }
+
+    .btn-signup {
+        background: #0b334f;
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 60px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: 0.2s;
+        border: 1px solid #22638b;
+        width: 100%;
+        margin: 0.5rem 0 1.5rem;
+    }
+
+    .btn-signup:hover {
+        background: #1a4f74;
+        transform: translateY(-3px);
+        box-shadow: 0 15px 25px -8px #0b334f;
+    }
+
+    .auth-footer {
+        color: #487393;
+        font-size: 0.95rem;
+    }
+
+    .auth-footer a {
+        color: #1d6b9b;
+        font-weight: 600;
+        text-decoration: none;
+        border-bottom: 2px solid #b1d3ed;
+    }
+
+    .auth-footer a:hover {
+        color: #0a3e5e;
+        border-bottom-color: #1d6b9b;
+    }
+
+    hr {
+        border: none;
+        height: 2px;
+        background: linear-gradient(to right, transparent, #c0d8ec, transparent);
+        margin: 1.5rem 0;
+    }
+</style>
+
+<div class="auth-card">
+    <h2><i class="fas fa-user-plus"></i> Signup</h2>
+    <hr>
+    <form method="POST" class="auth-form">
+        <div class="form-group">
+            <label>Username</label>
+            <div class="input-icon">
+                <i class="fas fa-user"></i>
+                <input name="username" placeholder="johndoe" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <div class="input-icon">
+                <i class="fas fa-envelope"></i>
+                <input name="email" type="email" placeholder="john@example.com" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Phone Number</label>
+            <div class="input-icon">
+                <i class="fas fa-phone-alt"></i>
+                <input name="phone" placeholder="+1 234 567 890" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <div class="input-icon">
+                <i class="fas fa-key"></i>
+                <input name="password" type="password" placeholder="••••••••" required>
+            </div>
+        </div>
+        <button type="submit" class="btn-signup"><i class="fas fa-user-check"></i> Signup</button>
+    </form>
+    <p class="auth-footer">Already have an account? <a href="/login">Login</a></p>
+</div>
+{% endblock %}

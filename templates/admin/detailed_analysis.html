@@ -1,0 +1,208 @@
+<h2 class="title">🤖 AI Resume Analysis - {{ job.title }}</h2>
+
+<a class="back-btn" href="{{ url_for('admin.view_applications', job_id=job.id) }}">
+    ← Back to Applications
+</a>
+
+<hr>
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #eef2ff, #f8fafc);
+        margin: 20px;
+    }
+
+    .title {
+        color: #1e293b;
+        font-weight: bold;
+    }
+
+    .back-btn {
+        text-decoration: none;
+        color: #2563eb;
+        font-weight: 500;
+    }
+
+    .back-btn:hover {
+        text-decoration: underline;
+    }
+
+    /* FORM */
+    .form-container {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        width: fit-content;
+    }
+
+    input {
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        width: 350px;
+    }
+
+    button {
+        padding: 12px 20px;
+        background: linear-gradient(135deg, #2563eb, #4f46e5);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-weight: bold;
+    }
+
+    button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    /* LOADING */
+    #loadingOverlay {
+        display: none;
+        text-align: center;
+        padding: 60px;
+        background: rgba(255,255,255,0.7);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        margin-top: 30px;
+    }
+
+    .robot {
+        font-size: 5rem;
+        animation: bounce 1.2s infinite;
+    }
+
+    @keyframes bounce {
+        0%,100% { transform: translateY(0); }
+        50% { transform: translateY(-15px); }
+    }
+
+    .spinner {
+        border: 6px solid #eee;
+        border-top: 6px solid #2563eb;
+        border-radius: 50%;
+        width: 70px;
+        height: 70px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+        100% { transform: rotate(360deg); }
+    }
+
+    /* RESULT CARDS */
+    .card {
+        background: rgba(255,255,255,0.95);
+        border-radius: 15px;
+        padding: 20px;
+        margin: 20px 0;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        transition: 0.3s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .rank {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #4f46e5;
+    }
+
+    .score {
+        font-size: 1.4rem;
+        color: #16a34a;
+        font-weight: bold;
+    }
+
+    .section-title {
+        color: #1e293b;
+        margin-top: 10px;
+    }
+
+    /* CLEAN TEXT OUTPUT */
+    .explanation {
+        background: #f8fafc;
+        padding: 15px;
+        border-radius: 10px;
+        line-height: 1.6;
+        white-space: pre-line; /* KEY FIX */
+        font-size: 14px;
+    }
+
+</style>
+
+{% if not show_results %}
+
+<div id="loadingOverlay">
+    <div class="spinner"></div>
+    <div class="robot">🤖</div>
+    <h3>Analyzing resumes with AI...</h3>
+    <p>This may take a few seconds</p>
+</div>
+
+<div id="formContainer" class="form-container">
+
+    <h3>Enter Skills for Analysis</h3>
+
+    <form method="POST" id="analysisForm">
+
+        <label><b>Core Skills</b></label><br>
+        <input type="text" name="core_skills" placeholder="Python, ML, SQL" required><br><br>
+
+        <label><b>Secondary Skills</b></label><br>
+        <input type="text" name="secondary_skills" placeholder="Docker, AWS" required><br><br>
+
+        <button type="submit">🚀 Run AI Analysis</button>
+
+    </form>
+
+</div>
+
+<script>
+document.getElementById('analysisForm').addEventListener('submit', function() {
+    document.getElementById('formContainer').style.display = 'none';
+    document.getElementById('loadingOverlay').style.display = 'block';
+});
+</script>
+
+{% else %}
+
+<h3>🏆 Top Candidates Ranking</h3>
+<hr>
+
+{% for item in results %}
+
+<div class="card">
+
+    <div class="rank">Rank #{{ loop.index }}</div>
+
+    <p><b>Name:</b> {{ item["application"].name }}</p>
+    <p><b>Email:</b> {{ item["application"].email }}</p>
+
+    <div class="score">Score: {{ item["score"] }}%</div>
+
+    <h4 class="section-title">📊 HR Evaluation</h4>
+
+    <div class="explanation">
+        {{ item["explanation"] 
+            | replace('**','') 
+            | replace('####','') 
+            | replace('###','') 
+            | replace('##','') 
+            | replace('*','') 
+            | replace('---','') 
+        }}
+    </div>
+
+</div>
+
+{% endfor %}
+
+{% endif %}

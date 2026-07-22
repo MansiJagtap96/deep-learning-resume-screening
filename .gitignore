@@ -1,0 +1,34 @@
+# Python virtual environments
+venv/
+newenv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+
+# Logs
+*.log
+
+# Database
+*.db
+
+# Uploaded files
+uploads/
+
+# AI model
+ats_resume_matcher/
+*.safetensors
+# Database
+database/
+*.sqlite3
+
+# Uploaded resumes
+static/resumes/
+static/temp_resumes/

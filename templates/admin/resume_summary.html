@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Summary · AI Analysis</title>
+    <!-- Font Awesome & Google Fonts (same as before) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f0f6fd 0%, #e6eefa 100%);
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            color: #1e2f40;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* header with back button */
+        .summary-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .summary-header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(130deg, #123b57, #1d628b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-link {
+            background: white;
+            padding: 0.7rem 1.8rem;
+            border-radius: 40px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #1c5379;
+            box-shadow: 0 6px 14px rgba(0,40,70,0.1);
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid rgba(255,255,255,0.7);
+        }
+
+        .back-link:hover {
+            background: #e1f0fc;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(25,80,120,0.15);
+        }
+
+        /* main summary card */
+        .summary-card {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 40px;
+            padding: 2.5rem;
+            box-shadow: 0 30px 50px -25px rgba(0,45,80,0.3);
+            border: 1px solid rgba(255,255,255,0.7);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 650;
+            color: #0e334d;
+            margin: 2rem 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 3px solid #c6ddec;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title i {
+            color: #1c6b9e;
+            font-size: 1.8rem;
+        }
+
+        .professional-summary {
+            background: #f2f9ff;
+            border-radius: 30px;
+            padding: 1.8rem;
+            font-size: 1.1rem;
+            border: 1px solid #cbe0f0;
+            color: #1e3f57;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
+            margin-bottom: 1rem;
+        }
+
+        .list-container {
+            background: #fbfdff;
+            border-radius: 30px;
+            padding: 1.8rem 2.2rem;
+            border: 1px solid #d3e4f2;
+            margin-bottom: 1.5rem;
+        }
+
+        .list-container ul {
+            list-style: none;
+        }
+
+        .list-container li {
+            margin-bottom: 0.9rem;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .list-container li i {
+            color: #1b7b4c;
+            font-size: 1.3rem;
+            min-width: 1.8rem;
+            margin-top: 0.2rem;
+        }
+
+        .gap-item i {
+            color: #c95b0f !important;
+        }
+
+        .footer-note {
+            margin-top: 2.5rem;
+            text-align: center;
+            color: #487393;
+            font-weight: 500;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            align-items: center;
+        }
+
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #abc9df, transparent);
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="summary-header">
+            <h1>
+                <i class="fas fa-file-alt" style="color:#1d6b9b;"></i> 
+                Resume Summary
+            </h1>
+            <a href="javascript:history.back()" class="back-link"><i class="fas fa-arrow-left"></i> Back to applications</a>
+        </div>
+
+        <div class="summary-card">
+            <!-- Professional Summary -->
+            <div class="section-title">
+                <i class="fas fa-user-graduate"></i> Professional Summary
+            </div>
+            <div class="professional-summary">
+                {{ summary.professional_summary }}
+            </div>
+
+            <hr>
+
+            <!-- Key Strengths -->
+            <div class="section-title">
+                <i class="fas fa-trophy" style="color:#1e7e34;"></i> Key Strengths
+            </div>
+            <div class="list-container">
+                <ul>
+                    {% for item in summary.key_strengths %}
+                    <li>
+                        <i class="fas fa-check-circle" style="color:#1e8f4a;"></i> 
+                        {{ item }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Identified Gaps -->
+            <div class="section-title">
+                <i class="fas fa-exclamation-triangle" style="color:#c95b0f;"></i> Identified Gaps
+            </div>
+            <div class="list-container">
+                <ul>
+                    {% for item in summary.identified_gaps %}
+                    <li class="gap-item">
+                        <i class="fas fa-lightbulb" style="color:#c95b0f;"></i> 
+                        {{ item }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="footer-note">
+                <i class="fas fa-robot"></i> AI‑generated summary · based on resume content
+            </div>
+        </div>
+    </div>
+</body>
+</html>

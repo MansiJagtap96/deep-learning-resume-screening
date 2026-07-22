@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Compare Job{% endblock %}
+
+{% block content %}
+
+<h2>Compare Resume with Job</h2>
+
+<h3>{{ job.title }}</h3>
+<p>{{ job.description }}</p>
+
+<hr>
+
+<form method="POST" enctype="multipart/form-data">
+    <label><strong>Upload Resume (PDF only)</strong></label><br><br>
+    <input type="file" name="resume" required>
+    <br><br>
+
+    <!-- Two Action Buttons -->
+    <button type="submit" name="action" value="match">
+        🔎 Check ATS Match
+    </button>
+
+    <button type="submit" name="action" value="summary">
+        🤖 Generate AI Summary
+    </button>
+</form>
+
+<!-- ================= ATS MATCH RESULT ================= -->
+
+{% if match_percent is defined %}
+<hr>
+<h3>ATS Match Result:</h3>
+
+<div style="border:1px solid #ccc; padding:20px; width:350px; border-radius:8px;">
+    <h2>{{ match_percent }} %</h2>
+
+    {% if match_percent >= 75 %}
+        <p style="color:green;"><strong>🔥 Excellent Match</strong></p>
+    {% elif match_percent >= 50 %}
+        <p style="color:orange;"><strong>👍 Moderate Match</strong></p>
+    {% else %}
+        <p style="color:red;"><strong>⚠ Low Match</strong></p>
+    {% endif %}
+</div>
+{% endif %}
+
+
+{% if summary is defined %}
+<hr>
+
+<h2>🤖 AI Resume Analysis</h2>
+
+
+{% if summary.ats_feedback %}
+<h3>ATS Feedback</h3>
+<p>{{ summary.ats_feedback }}</p>
+{% endif %}
+
+{% if summary.improvement_suggestions %}
+<h3>Improvement Suggestions</h3>
+<ul>
+    {% for item in summary.improvement_suggestions %}
+        <li>{{ item }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if summary.recommended_roles %}
+<h3>Recommended Roles</h3>
+<ul>
+    {% for item in summary.recommended_roles %}
+        <li>{{ item }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% endif %}
+
+<br><br>
+<a href="{{ url_for('user.dashboard') }}">⬅ Back to Dashboard</a>
+
+{% endblock %}

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Resume Analyzer{% endblock %}</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f0f7fd 0%, #e3eef9 100%);
+            min-height: 100vh;
+            color: #1e2f40;
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255,255,255,0.7);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0,40,60,0.1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #1d4e72;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.5);
+            border: 1px solid transparent;
+        }
+
+        .nav-links a:hover {
+            background: white;
+            border-color: #b0d0e9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,60,100,0.1);
+        }
+
+        .nav-links a i {
+            font-size: 1rem;
+        }
+
+        /* Flash messages */
+        .flash-messages {
+            max-width: 1200px;
+            margin: 1rem auto 0;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        .flash-message {
+            background: #fee9e9;
+            color: #b34141;
+            padding: 1rem 1.5rem;
+            border-radius: 60px;
+            font-weight: 500;
+            border: 1px solid #fbb6b6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 18px rgba(180,60,60,0.1);
+            margin-bottom: 1rem;
+        }
+
+        .flash-message i {
+            font-size: 1.2rem;
+        }
+
+        /* Main content container */
+        .main-content {
+            flex: 1;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, #c0d8ec, transparent);
+            margin: 1rem 0;
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="/"><i class="fas fa-chart-pie"></i> Dashboard</a>
+            <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+        <!-- optional logo or brand -->
+        <span style="font-weight:600; color:#17577e;"><i class="fas fa-robot"></i> Resume Analyzer</span>
+    </nav>
+
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for msg in messages %}
+                    <div class="flash-message">
+                        <i class="fas fa-exclamation-circle"></i> {{ msg }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Optional footer -->
+    <footer style="text-align:center; padding:2rem; color:#6c8da8; font-size:0.9rem;">
+        <i class="fas-robot"></i> AI Resume Analyzer
+    </footer>
+</body>
+</html>
